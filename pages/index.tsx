@@ -5,25 +5,14 @@ import Link from 'next/link'
 import Header from '../components/Header'
 import { sanityClient, urlFor } from '../lib/sanity'
 import { Post } from '../types/common/typings'
+import { queryPosts } from '../utils/queries'
 
 interface Props {
   posts: [Post]
 }
 
 export const getServerSideProps = async () => {
-  const query = `*[_type == "post"]{
-    _id,
-    title,
-    slug,
-    description,
-    mainImage,
-    author -> {
-      name,
-      image
-    }
-  }`
-
-  const posts = await sanityClient.fetch(query)
+  const posts = await sanityClient.fetch(queryPosts)
 
   return {
     props: {
