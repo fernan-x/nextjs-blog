@@ -14,7 +14,16 @@ interface Props {
 }
 
 const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-  console.log(data)
+  await fetch('/api/comment', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+    .then(() => {
+      console.log(data)
+    })
+    .catch((err) => {
+      console.error(err)
+    })
 }
 
 const PostComment = ({ post }: Props) => {
@@ -60,9 +69,7 @@ const PostComment = ({ post }: Props) => {
           />
           {errors.comment && (
             <p className="p-2">
-              <span className="text-red-500">
-                The Comment field is required
-              </span>
+              <span className="text-red-500">The Email field is required</span>
             </p>
           )}
         </label>
@@ -76,7 +83,9 @@ const PostComment = ({ post }: Props) => {
           />
           {errors.email && (
             <p className="p-2">
-              <span className="text-red-500">The Email field is required</span>
+              <span className="text-red-500">
+                The Comment field is required
+              </span>
             </p>
           )}
         </label>
